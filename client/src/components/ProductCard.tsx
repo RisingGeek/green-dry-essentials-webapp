@@ -19,10 +19,16 @@ export function ProductCard({ product }: ProductCardProps) {
     e.preventDefault();
     e.stopPropagation();
     
-    await addToCart(product.id);
-    
-    // Track conversion for the product card style
-    trackConversion('productCardStyle', config.productCardStyle.value);
+    try {
+      await addToCart(product.id, 1);
+      
+      // Track conversion for the product card style
+      trackConversion('productCardStyle', config.productCardStyle.value);
+      
+      console.log('Product added to cart:', product.id);
+    } catch (error) {
+      console.error('Failed to add to cart:', error);
+    }
   };
 
   const toggleWishlist = (e: React.MouseEvent) => {
@@ -44,7 +50,7 @@ export function ProductCard({ product }: ProductCardProps) {
       <div className="product-card bg-white rounded-lg overflow-hidden border border-neutral transition-all h-full flex flex-col">
         <div className="relative">
           <img 
-            src={product.imageUrl}
+            src={product.imageUrl || 'https://images.unsplash.com/photo-1608797178974-15b35a64ede9?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80'}
             alt={product.name}
             className="w-full h-56 object-cover"
           />
@@ -78,9 +84,9 @@ export function ProductCard({ product }: ProductCardProps) {
             <span className="text-xs text-gray-500 ml-1">({product.reviewCount || 0})</span>
           </div>
           <p className="text-sm text-gray-600 mb-3 flex-grow">
-            {product.description?.length > 75 
+            {product.description && product.description.length > 75 
               ? `${product.description.substring(0, 75)}...` 
-              : product.description}
+              : product.description || 'Premium quality dry fruit, rich in nutrients and delicious taste.'}
           </p>
           <div className="flex justify-between items-center mt-auto">
             <div>

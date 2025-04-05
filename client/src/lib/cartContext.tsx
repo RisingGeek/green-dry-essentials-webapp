@@ -46,8 +46,9 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const getSessionId = (): string => {
     let sessionId = localStorage.getItem('sessionId');
     if (!sessionId) {
-      sessionId = Math.random().toString(36).substring(2, 15);
+      sessionId = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
       localStorage.setItem('sessionId', sessionId);
+      console.log('New session created:', sessionId);
     }
     return sessionId;
   };
@@ -65,16 +66,19 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const fetchCart = async () => {
     try {
       const sessionId = getSessionId();
-      const response = await fetch(`/api/cart?sessionId=${sessionId}`, {
-        credentials: 'include'
-      });
+      console.log('Fetching cart for session:', sessionId);
+      
+      const response = await apiRequest('GET', `/api/cart?sessionId=${sessionId}`, undefined);
       
       if (response.ok) {
         const data = await response.json();
-        setCartItems(data.items);
+        console.log('Cart data received:', data);
+        setCartItems(data.items || []);
       }
     } catch (error) {
       console.error('Failed to fetch cart:', error);
+      // Silent failure - don't show toast for fetch failures
+      setCartItems([]);
     }
   };
 

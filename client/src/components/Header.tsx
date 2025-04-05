@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "wouter";
 import { useCart } from "@/lib/cartContext";
 import LocationSelector from "./LocationSelector";
@@ -6,12 +6,13 @@ import SearchBar from "./SearchBar";
 import MobileMenu from "./MobileMenu";
 import CartSidebar from "./CartSidebar";
 import { useQuery } from "@tanstack/react-query";
+import { Category } from "@shared/schema";
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { isCartOpen, toggleCart, getCartCount } = useCart();
 
-  const { data: categories } = useQuery({
+  const { data: categories = [] } = useQuery<Category[]>({
     queryKey: ['/api/categories'],
   });
 
@@ -59,15 +60,25 @@ export function Header() {
               </Link>
               
               {/* Cart */}
-              <button 
-                onClick={toggleCart}
-                className="text-primary hover:text-primaryLight transition-colors relative"
-              >
-                <i className="fas fa-shopping-bag text-xl"></i>
-                <span className="absolute -top-2 -right-2 bg-accent text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                  {getCartCount()}
-                </span>
-              </button>
+              <div className="flex items-center space-x-2">
+                <button 
+                  onClick={toggleCart}
+                  className="text-primary hover:text-primaryLight transition-colors relative"
+                  title="View Cart Sidebar"
+                >
+                  <i className="fas fa-shopping-bag text-xl"></i>
+                  <span className="absolute -top-2 -right-2 bg-accent text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                    {getCartCount()}
+                  </span>
+                </button>
+                <Link 
+                  href="/cart"
+                  className="text-primary hover:text-primaryLight transition-colors"
+                  title="Go to Cart Page"
+                >
+                  <i className="fas fa-shopping-cart text-xl"></i>
+                </Link>
+              </div>
               
               {/* Mobile Menu Toggle */}
               <button 
@@ -84,7 +95,7 @@ export function Header() {
             <Link href="/" className="px-4 py-1 text-primary hover:text-accent font-medium transition-colors">
               All Products
             </Link>
-            {categories?.map((category: any) => (
+            {categories?.map((category) => (
               <Link 
                 key={category.id} 
                 href={`/category/${category.slug}`}
