@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Montserrat:wght@500;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 48 33% 97%;
+    --foreground: 20 14.3% 4.1%;
+    
+    --card: 0 0% 100%;
+    --card-foreground: 20 14.3% 4.1%;
+    
+    --popover: 0 0% 100%;
+    --popover-foreground: 20 14.3% 4.1%;
+    
+    --primary: 33 52% 36%;
+    --primary-foreground: 60 9.1% 97.8%;
+    
+    --secondary: 43 53% 67%;
+    --secondary-foreground: 24 9.8% 10%;
+    
+    --muted: 60 4.8% 95.9%;
+    --muted-foreground: 25 5.3% 44.7%;
+    
+    --accent: 122 39% 34%;
+    --accent-foreground: 60 9.1% 97.8%;
+    
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 60 9.1% 97.8%;
+
+    --border: 43 36% 88%;
+    --input: 43 36% 88%;
+    --ring: 33 52% 36%;
+    
+    --chart-1: 33 52% 36%;
+    --chart-2: 43 53% 67%;
+    --chart-3: 122 39% 34%;
+    --chart-4: 33 52% 26%;
+    --chart-5: 43 53% 57%;
+    
+    --radius: 0.5rem;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-['Lato',sans-serif];
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-['Playfair_Display',serif];
+  }
+
+  button, .button {
+    @apply font-['Montserrat',sans-serif];
+  }
+  
+  /* A/B Testing Styles */
+  .product-cards-variant-a .product-card {
+    @apply shadow-md transition-transform duration-200;
+  }
+
+  .product-cards-variant-a .product-card:hover {
+    @apply transform -translate-y-1;
+  }
+
+  .product-cards-variant-b .product-card {
+    @apply border border-secondary transition-shadow duration-200;
+  }
+
+  .product-cards-variant-b .product-card:hover {
+    @apply shadow-lg;
+  }
+}
