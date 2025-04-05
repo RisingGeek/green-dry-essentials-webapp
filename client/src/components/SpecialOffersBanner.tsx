@@ -95,7 +95,7 @@ export function SpecialOffersBanner({
             </div>
             <div className="hidden md:block md:w-1/2">
               <img 
-                src={imageUrl}
+                src={imageUrl || 'https://images.unsplash.com/photo-1536304929831-ee1ca9d44906?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80'}
                 alt="Festival special dry fruits pack"
                 className="w-full h-80 object-cover"
               />

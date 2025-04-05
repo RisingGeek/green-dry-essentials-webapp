@@ -55,7 +55,7 @@ export function HeroSlider({ slides }: HeroSliderProps) {
         {/* Main Hero Slide */}
         <div className="absolute inset-0 w-full h-full flex flex-col items-center justify-center">
           <img 
-            src={slide.imageUrl}
+            src={slide.imageUrl || 'https://images.unsplash.com/photo-1563591924-2b4cc30c7fbf?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80'}
             alt={slide.title}
             className="absolute inset-0 w-full h-full object-cover"
           />

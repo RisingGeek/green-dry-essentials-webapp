@@ -104,6 +104,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
   const addToCart = async (productId: number, quantity: number = 1) => {
     try {
+      console.log('Adding to cart:', { productId, quantity });
       const sessionId = getSessionId();
       const response = await apiRequest('POST', '/api/cart/add', {
         productId,
@@ -112,18 +113,36 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       });
       
       if (response.ok) {
+        const result = await response.json();
+        console.log('Add to cart response:', result);
         await fetchCart();
+        
+        // Open the cart sidebar to show the newly added item
+        setIsCartOpen(true);
+        
         toast({
           title: "Added to cart",
           description: "Item has been added to your cart",
         });
+        return result;
+      } else {
+        const errorData = await response.json();
+        console.error('Error response from server:', errorData);
+        toast({
+          title: "Error",
+          description: errorData.message || "Failed to add item to cart",
+          variant: "destructive"
+        });
+        return null;
       }
     } catch (error) {
+      console.error('Exception adding to cart:', error);
       toast({
         title: "Error",
         description: "Failed to add item to cart",
         variant: "destructive"
       });
+      return null;
     }
   };
 
